@@ -1,4 +1,3 @@
-#Lista de librerias necesarias para la ejecución del proyecto
 numpy==1.17.1
 sympy==1.4
 matplotlib==3.1.1
