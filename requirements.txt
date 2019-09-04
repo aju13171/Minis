@@ -1,4 +1,0 @@
-#Lista de librerias necesarias para la ejecución del proyecto
-numpy
-sympy
-matplotlib
