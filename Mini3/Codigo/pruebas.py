@@ -5,7 +5,7 @@ def poisson(ldpp,t):
     return t-((1/ldpp)*math.log(random.random()))
 
 def exponencial(lde,t):
-    return -((1/lde)*math.log(random.random()))
+    return -((1/lde)*math.log(random.random()))#lde*math.exp(-lde*random.random())#
 
 def caso1(t,Na,Nd,n,ta,td,A,D,Tp,ldpp,lde):
     t = ta
@@ -46,27 +46,29 @@ def caso4(t,Na,Nd,n,ta,td,A,D,Tp,ldpp,lde):
     return t,Na,Nd,n,ta,td,A,D,Tp
 
 def selector(t,Na,Nd,n,ta,td,A,D,Tp,ldpp,lde):
+    B = 0
     if(ta <= td and ta <= T):
         # El siguiente evento es una llegada de una solicitud al 
         # sistema y aún no es la hora de cierre.
-        # print("CASO 1")
+        print("CASO 1")
         t,Na,Nd,n,ta,td,A,D,Tp = caso1(t,Na,Nd,n,ta,td,A,D,Tp,ldpp,lde)
     elif(td < ta and td <= T):
         # El siguiente evento es una salida de una solicitud del
         # sistema y aún no es la hora de cierre.
-        # print("CASO 2")
+        print("CASO 2")
         t,Na,Nd,n,ta,td,A,D,Tp = caso2(t,Na,Nd,n,ta,td,A,D,Tp,ldpp,lde)
     elif(min(ta,td)>T and n > 0):
         # El próximo evento ocurre luego de la hora de cierre 
         # y aún hay solicitudes en el sistema.
-        # print("CASO 3")
+        print("CASO 3")
         t,Na,Nd,n,ta,td,A,D,Tp = caso3(t,Na,Nd,n,ta,td,A,D,Tp,ldpp,lde)
     else:
         # El próximo evento ocurre luego de la hora de cierre
         # y ya no hay solicitudes en cola.
-        # print("CASO 4")
+        print("CASO 4")
         t,Na,Nd,n,ta,td,A,D,Tp = caso4(t,Na,Nd,n,ta,td,A,D,Tp,ldpp,lde)
-    return t,Na,Nd,n,ta,td,A,D,Tp
+        B = 1
+    return t,Na,Nd,n,ta,td,A,D,Tp,B
 
 def tiempoOcupado(A,D):
     tO = 0
@@ -88,9 +90,10 @@ def servidor(T,ldpp,lde):
     Tp = 0
     A = []
     D = []
-    while(t<T):
-        t,Na,Nd,n,ta,td,A,D,Tp = selector(t,Na,Nd,n,ta,td,A,D,Tp,ldpp,lde)
-    print("t",t,"\n","Na",Na,"\n","Nd",Nd,"\n","ta",ta,"\n","td",td,"\n","Tp",Tp)
+    B = 0
+    while(t<T and B == 0):
+        t,Na,Nd,n,ta,td,A,D,Tp,B = selector(t,Na,Nd,n,ta,td,A,D,Tp,ldpp,lde)
+        print("t",t,"\n","Na",Na,"\n","Nd",Nd,"\n","ta",ta,"\n","td",td,"\n","Tp",Tp)
     print("Solicitudes ingresadas",Na)
     print("Solicitudes egresadas",Nd)
     print("Tiempo ocupado", tiempoOcupado(A,D)[0])
