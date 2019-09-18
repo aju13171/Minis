@@ -5,7 +5,7 @@ def poisson(ldpp,t):
     return t-((1/ldpp)*math.log(random.random()))
 
 def exponencial(lde,t):
-    return t-(lde*math.exp(-lde*random.random()))
+    return -((1/lde)*math.log(random.random()))
 
 def caso1(t,Na,Nd,n,ta,td,A,D,Tp,ldpp,lde):
     t = ta
@@ -90,14 +90,14 @@ def servidor(T,ldpp,lde):
     D = []
     while(t<T):
         t,Na,Nd,n,ta,td,A,D,Tp = selector(t,Na,Nd,n,ta,td,A,D,Tp,ldpp,lde)
-        print("t",t,"\n","Na",Na,"\n","Nd",Nd,"\n","ta",ta,"\n","td",td,"\n","A",A,"\n","D",D,"\n","Tp",Tp)
+        print("t",t,"\n","Na",Na,"\n","Nd",Nd,"\n","ta",ta,"\n","td",td,"\n","Tp",Tp)
     print("Solicitudes ingresadas",Na)
     print("Solicitudes egresadas",Nd)
     print("Tiempo ocupado", tiempoOcupado(A,D)[0])
     print("Tiempo desocupado",tiempoOcupado(A,D)[1])
 
 # caracteristicas servidor
-T = 3
+T = 3600
 lde = 100
 ldpp = 2400/60
 
