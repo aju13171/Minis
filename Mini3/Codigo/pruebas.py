@@ -70,20 +70,34 @@ def selector(t,Na,Nd,n,ta,td,A,D,Tp,ldpp,lde):
         B = 1
     return t,Na,Nd,n,ta,td,A,D,Tp,B
 
-def tiempoOcupado(A,D):
+def tiempoOcupado(A,D,N):
     tO = 0
     tD = 0
+    C = []
+    solcol = 0
     for i in range(0,min(len(A),len(D))):
         tO = tO + (D[i] - A[i]) # tiempo ocupado
     for j in range(0,min(len(A)-1,len(D)-1)):
         tD = tD + (A[j+1] - D[j]) # tiempo desocupado
-    return tO, tD
+    for k in range(0,len(A)-1):
+        if(A[k+1] < D[k]):
+            tC = D[k] - A[k+1]
+        else:
+            tC = 0
+        C.append(tC)
+        tCT = sum(C)
+    for l in range(0,len(N)):
+        if(N[l] >= 2):
+            solcol = solcol + (N[l]-1)
+        
+    return tO, tD, tCT, solcol
 
 def servidor(T,ldpp,lde):
     t = 0
     Na = 0
     Nd = 0
     n = 0
+    N = []
     T0 = poisson(ldpp,t)
     ta = T0
     td = float('Inf')
@@ -93,11 +107,20 @@ def servidor(T,ldpp,lde):
     B = 0
     while(t<T and B == 0):
         t,Na,Nd,n,ta,td,A,D,Tp,B = selector(t,Na,Nd,n,ta,td,A,D,Tp,ldpp,lde)
-        print("t",t,"\n","Na",Na,"\n","Nd",Nd,"\n","ta",ta,"\n","td",td,"\n","Tp",Tp)
+        N.append(n)
+        #print("t",t,"\n","Na",Na,"\n","Nd",Nd,"\n","ta",ta,"\n","td",td,"\n","Tp",Tp,"n",n)
+        print(len(A))
+        print(len(D))
     print("Solicitudes ingresadas",Na)
     print("Solicitudes egresadas",Nd)
-    print("Tiempo ocupado", tiempoOcupado(A,D)[0])
-    print("Tiempo desocupado",tiempoOcupado(A,D)[1])
+    print("Tiempo ocupado", tiempoOcupado(A,D,N)[0])
+    print("Tiempo desocupado",tiempoOcupado(A,D,N)[1])
+    print("Tiempo total en cola",tiempoOcupado(A,D,N)[2])
+    print("Promedio en cola de cada solicitud",tiempoOcupado(A,D,N)[2]/sum(N))
+    print("Solicitudes en cola por segundo",tiempoOcupado(A,D,N)[3]/T)
+    print("Tiempo de salida de la última solicitud",td)
+    print("Tiempo promedio por solicitud",tiempoOcupado(A,D,N)[0]/len(D))
+    
 
 # caracteristicas servidor
 T = 1
