@@ -13,9 +13,9 @@ supervisor = Supervisor()
 supervisor.step(TIME_STEP)
 
 """ ARENA """
-#arena = supervisor.getFromDef("Arena")
-#size = arena.getField("floorSize")
-#sizeVec = size.getSFVec2f()
+arena = supervisor.getFromDef("Arena")
+size = arena.getField("floorSize")
+sizeVec = size.getSFVec2f()
 
 """ PELOTA """
 rB = 0.05
@@ -36,20 +36,19 @@ sizeY = sizeVec[1] - 2*rP
 # Pelota
 xB = random.random()*sizeX - sizeX/2
 yB = random.random()*sizeY - sizeY/2
-ball.setSFVec3f([xB, 0.05, yB])
-print(ball.getSFVec3f(posB))
+posB.setSFVec3f([xB, 0.05, yB])
 
 # Jugador
 xP = random.random()*sizeX - sizeX/2
 yP = random.random()*sizeY - sizeY/2
-player.setSFVec3f([xP, -6.40422e-05, yP])
+posP.setSFVec3f([xP, -6.40422e-05, yP])
 
 
 
 
 # Main loop:
 # - perform simulation steps until Webots is stopping the controller
-while robot.step(timestep) != -1:
+while supervisor.step(TIME_STEP) != -1:
     
     pass
 
