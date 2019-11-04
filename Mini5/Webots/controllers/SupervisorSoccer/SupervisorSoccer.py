@@ -27,6 +27,7 @@ rP = 0.1
 MAX_SPEED = 6.28
 player = supervisor.getFromDef("Player")
 posP = player.getField("translation")
+orP = player.getField("rotation")
 
 
 ## Posiciones iniciales aleatorias ##
@@ -41,15 +42,32 @@ posB.setSFVec3f([xB, 0.05, yB])
 # Jugador
 xP = random.random()*sizeX - sizeX/2
 yP = random.random()*sizeY - sizeY/2
+oP = random.random()*2*math.pi
 posP.setSFVec3f([xP, -6.40422e-05, yP])
-
-
+vecOrP = orP.getSFRotation()
+orP.setSFRotation([vecOrP[0], vecOrP[1], vecOrP[2], oP])
 
 
 # Main loop:
 # - perform simulation steps until Webots is stopping the controller
 while supervisor.step(TIME_STEP) != -1:
     
+    # Posiciones actuales
+    posAP = posP.getSFVec3f()
+    posAB = posB.getSFVec3f()
+    vecDist = [0,0]
+    vecDist[0] = posAB[0] - posAP[0]
+    vecDist[1] = posAB[2] - posAP[2]
+    
+    orAP = orP.getSFRotation()
+    
+    # Orientación actual
+    vecP = [0,0]
+    vecP[0] = math.sin(orAP[3])
+    vecP[1] = math.cos(orAP[3])
+    
+    ang = math.acos((vecDist[0]*vecP[0] + vecDist[1]*vecP[1])/((math.sqrt((vecDist[0])**2+(vecDist[1])**2))*(math.sqrt((vecP[0])**2+(vecP[1])**2))))
+    print(ang)
     pass
 
 # Enter here exit cleanup code.
