@@ -23,6 +23,9 @@ ball = supervisor.getFromDef("Ball")
 posB = ball.getField("translation")
 
 """ JUGADOR """
+r = 0.0205
+l = 0.0355
+a = 0.0355
 rP = 0.1
 MAX_SPEED = 6.28
 player = supervisor.getFromDef("Player")
@@ -59,15 +62,26 @@ while supervisor.step(TIME_STEP) != -1:
     vecDist[0] = posAB[0] - posAP[0]
     vecDist[1] = posAB[2] - posAP[2]
     
-    orAP = orP.getSFRotation()
+    dist = math.sqrt(vecDist[0]**2 + vecDist[1]**2)
+    
     
     # Orientación actual
+    orAP = orP.getSFRotation()
     vecP = [0,0]
     vecP[0] = math.sin(orAP[3])
     vecP[1] = math.cos(orAP[3])
     
     ang = math.acos((vecDist[0]*vecP[0] + vecDist[1]*vecP[1])/((math.sqrt((vecDist[0])**2+(vecDist[1])**2))*(math.sqrt((vecP[0])**2+(vecP[1])**2))))
-    print(ang)
+    
+    v = 0.5*dist
+    w = 0.5*ang
+    
+    phi_r = (v+(w*l))/r
+    phi_l = (v-(w*l))/r
+    
+    leftMotor.setVelocity(phi_l)
+    rightMotor.setVelocity(phi_r)
+    
     pass
 
 # Enter here exit cleanup code.

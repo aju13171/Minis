@@ -34,7 +34,7 @@ Robot {
       ]
       endPoint DEF EPUCK_LEFT_WHEEL Solid {
         translation -0.025999999844193343 0.01989047797361465 -1.6737882864189936e-10
-        rotation -0.002745547983358001 2.320977435240857e-06 0.9999962309733392 2.844834223695452e-06
+        rotation -0.0027455309732609848 2.320977435349252e-06 0.9999962310200413 2.844834223695452e-06
         children [
           DEF EPUCK_WHEEL Transform {
             rotation 0 0 1 1.57
@@ -189,7 +189,7 @@ Robot {
       ]
       endPoint DEF EPUCK_RIGHT_WHEEL Solid {
         translation 0.02599999984419335 0.01989047797361465 -1.6737660352116277e-10
-        rotation -0.0027454983057164572 2.32000431944818e-06 -0.9999962311097333 2.844834223695452e-06
+        rotation -0.0027454812960377457 2.3200043195565247e-06 -0.9999962311564332 2.844834223695452e-06
         children [
           Transform {
             rotation 0 1 0 3.14159
@@ -1337,7 +1337,7 @@ Robot {
       }
     ]
   }
-  controller "SupervisorSoccer"
+  controller ""
   supervisor TRUE
   cpuConsumption 1.11
   window "e-puck"
@@ -1350,7 +1350,7 @@ DEF Ball SoccerBall {
 DEF Player E-puck {
   translation -0.010988227907468265 -6.403943885753376e-05 -0.16103114889197184
   rotation 0.008085426063739255 0.9999667891737476 -0.0010229540133279138 0.13444328676621367
-  controller ""
+  controller "SupervisorSoccer"
   supervisor TRUE
 }
 Table {
