@@ -4,7 +4,7 @@ from controller import Supervisor
 import numpy as np
 import random
 import math
-import pickle
+import mini5
 
 
 TIME_STEP = 64
@@ -95,34 +95,55 @@ while supervisor.step(TIME_STEP) != -1:
     ang = -math.pi + math.acos((vecDist[0]*vecP[0] + vecDist[1]*vecP[1])/((math.sqrt((vecDist[0])**2+(vecDist[1])**2))*(math.sqrt((vecP[0])**2+(vecP[1])**2))))
     ang2 = -math.pi + math.acos((vecDist2[0]*vecP[0] + vecDist2[1]*vecP[1])/((math.sqrt((vecDist2[0])**2+(vecDist2[1])**2))*(math.sqrt((vecP[0])**2+(vecP[1])**2))))
     
+    angD = ang*180/math.pi
     print("ang", ang*180/math.pi)
     print("ang2", ang2*180/math.pi)
     
-    v = 0.04*dist
-    w = 0.04*ang
+    #v = 0.04*dist
+    #w = 0.04*ang
+    cL = mini5.Centroide(1, mini5.f_out1(dist/2.828,-angD),0,1)
+    cA = mini5.Centroide(2, mini5.f_out2(dist/2.828,-angD),-1,1)
+    # cL = mini5.Centroide(1, mini5.f_out1(0.4/2.828,135),0,1)
+    # cA = mini5.Centroide(2, mini5.f_out2(0.4/2.828,135),-1,1)
+    print("cL",cL)
+    print("cA",cA)
+    
+    
+    # w = cA*3.6
+    # v = cL*0.13
+    
+    w = cA*11
+    v = cL*0.3
+    
+    print("w",w)
+    print("v",v)
     
     phi_r = (v+(w*l))/r
     phi_l = (v-(w*l))/r
-    # print("phi_r", phi_r)
-    # print("phi_l", phi_l)
+    print("phi_r", phi_r)
+    print("phi_l", phi_l)
     
     # Truncar velocidades a la velocidad maxima
-    # if(phi_r > 0):
-        # if(phi_r > MAX_SPEED):
-            # phi_r = MAX_SPEED
-    # else:
-        # if(phi_r < -MAX_SPEED):
-            # phi_r = -MAX_SPEED
+    if(phi_r > 0):
+        if(phi_r > MAX_SPEED):
+            phi_r = MAX_SPEED
+    else:
+        if(phi_r < -MAX_SPEED):
+            phi_r = -MAX_SPEED
             
-    # if(phi_l > 0):
-        # if(phi_l > MAX_SPEED):
-            # phi_l = MAX_SPEED
-    # else:
-        # if(phi_l < -MAX_SPEED):
-            # phi_l = -MAX_SPEED
+    if(phi_l > 0):
+        if(phi_l > MAX_SPEED):
+            phi_l = MAX_SPEED
+    else:
+        if(phi_l < -MAX_SPEED):
+            phi_l = -MAX_SPEED
 
     if(dist > 0.12 and i == 0): 
-        posB.setSFVec3f([xB, 0.05, yB])
+        leftMotor.setPosition(float('inf'))
+        rightMotor.setPosition(float('inf'))
+        leftMotor.setVelocity(0)
+        rightMotor.setVelocity(0)
+        #posB.setSFVec3f([xB, 0.05, yB])
         print("Distancia mayor a 0.12")           
         leftMotor.setVelocity(phi_l)
         rightMotor.setVelocity(phi_r)
@@ -151,7 +172,8 @@ while supervisor.step(TIME_STEP) != -1:
             rightMotor.setPosition(3)
         elif(i == 6):
             leftMotor.setVelocity(0)
-            rightMotor.setVelocity(0)  
+            rightMotor.setVelocity(0)
+            i = -1  
         # elif(i<10):
             # leftMotor.setVelocity(6)
             # rightMotor.setVelocity(6)

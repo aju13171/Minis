@@ -409,16 +409,12 @@ def Centroide(tipo, fun, limi, lims, dx=0.01):
         print("tipo 1 ----")
         for i in x:
             z.append(fun(i,0))
-            zx.append(fun(i,0))
-        #z = fun(x,0)
-        #zx = fun(x,0)*x
+            zx.append(fun(i,0)*i)
     else:
         print("tipo 2 -----")
         for i in x:
             z.append(fun(0,i))
-            zx.append(fun(0,i))
-        #z = fun(0,x)
-        #zx = fun(0,x)*x
+            zx.append(fun(0,i)*i)
     plt.plot(x,z)
     plt.show()
     iz = np.trapz(z,x)
@@ -427,33 +423,13 @@ def Centroide(tipo, fun, limi, lims, dx=0.01):
     print("izx: ", izx)
     return izx/iz
 #----------------------------------------------------------------------
-tests = 0
-graficas = 0
-graficaT = 1
-if(tests):
-    #tests
-    print(fun_liminf(0.2,0.4, 0.6))
 
-if(graficas or graficaT):
-    if(graficas):
-        #graficas input
-        graficador("DISTANCIA", 1, [0,1],[muy_cerca, cerca, lejos, muy_lejos])
-        #graficador("ORIENTACION", 2, [0, 180], [muy_izq, izq, centro, der, muy_der])
+    #f_out1
+    cL = Centroide(1, f_out1(0.6,75),0,1)
+    print("El valor de vLineal es: ", f_out1(0.6,75)(cL,0))
 
-        #graficas output
-        graficador("V LINEAL", 3, [0, 1], [super_lento, muy_lento, lento, rapido, muy_rapido, super_rapido])
-        #graficador("V ANGULAR", 4, [-1, 1], [rapida_pos, lenta_pos, cero, lenta_neg, rapida_neg] )
-    if(graficaT):
-        #f_out1
-        #graficador("GRAFICAS COMBINADAS VLINEAL", 1,[0,1],[f_out1(0.6,75)])
-        #cL = Centroide(1, f_out1(0.6,75),0,1)
-        #print("El centroide de vLineal es: ", cL)
-        #print("El valor de vLineal es: ", f_out1(0.6,75)(cL,0))
-
-        #f_out2
-        graficador("GRAFICAS COMBINADAS VANGULAR ",2,[-1,1],[f_out2(0.6,75)])
-        cA = Centroide(2, f_out2(0.6,75),-1,1)
-        print("El centroide de vAngular es: ", cA)
-        print("El valor de vAngular es: ", f_out2(0.6,75)(0,cA))
+    #f_out2
+    cA = Centroide(2, f_out2(0.6,75),-1,1)
+    print("El valor de vAngular es: ", f_out2(0.6,75)(0,cA))
 
 
